@@ -1,0 +1,48 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: '@project.artifactId@'
+  main:
+    banner-mode: "off"
+
+  jpa:
+    database: POSTGRESQL
+    hibernate.ddl-auto: update
+    show-sql: true
+
+  datasource:
+    platform: postgres
+    driverClassName: org.postgresql.Driver
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/user_management}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:Souravdas123@}
+
+  cloud:
+    compatibility-verifier:
+      enabled: false
+
+keycloak:
+  client:
+    server-url: ${KEYCLOAK_SERVER_URL:http://192.168.0.21:8080}
+    realm: ${KEYCLOAK_REALM:master}
+    org-client-id: ${KEYCLOAK_CLIENT_ID:user-management}
+    master-client-id: ${KEYCLOAK_MASTER_ID:admin-cli}
+    username: ${KEYCLOAK_USERNAME:admin}
+    password: ${KEYCLOAK_PASSWORD:admin}
+    master-client-secret: ${KEYCLOAK_MASTER_CLIENT_SECRET:RTgkKalLUEX0gzhOh48r5Q6rVRDRDsAz}
+    org-client-secret: ${KEYCLOAK_MASTER_CLIENT_SECRET:EXQYLIgSbnkmxZ7wz1tCnIGG36kXvVlL}
+  resource-server:
+    jwt:
+      issuer-uri: ${KEYCLOAK_ISSUER_URI:http://192.168.0.21:8080/realms/master/protocol/openid-connect/certs}
+
+jwt:
+  auth:
+    converter:
+      resource-id: user_management
+      principle-attribute: preferred_username
+
+logging:
+  level:
+    org.springframework.security: DEBUG
