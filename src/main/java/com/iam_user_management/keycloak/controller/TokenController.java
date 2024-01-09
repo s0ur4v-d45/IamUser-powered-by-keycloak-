@@ -14,7 +14,7 @@ public class TokenController {
 
     private final AccessTokenService accessTokenService;
     @PostMapping
-    public ResponseEntity<AccessTokenResponse> generateToken(@RequestBody TokenDTO tokenDTO){
+    public ResponseEntity<AccessTokenResponse> generateToken(@RequestBody final TokenDTO tokenDTO) {
         return ResponseEntity.ok(accessTokenService.generateToken(tokenDTO));
     }
 }

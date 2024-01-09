@@ -18,32 +18,33 @@ public class RealmController {
 
     private final RealmService realmService;
     @GetMapping
-    public ResponseEntity<List<RealmDTO>> getAllRealms(@RequestParam Boolean sync){
+    public ResponseEntity<List<RealmDTO>> getAllRealms(@RequestParam final Boolean sync) {
         return ResponseEntity.ok().body(realmService.getAllRealm(sync));
     }
 
     @PostMapping
-    public ResponseEntity<RealmDTO> createRealm(@RequestBody RealmDTO realmDTO){
+    public ResponseEntity<RealmDTO> createRealm(@RequestBody final RealmDTO realmDTO) {
         return ResponseEntity.ok().body(realmService.createRealm(realmDTO));
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteRealm(@RequestParam String realmName){
+    public ResponseEntity<Void> deleteRealm(@RequestParam final String realmName) {
         realmService.deleteRealm(realmName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/name")
-    public ResponseEntity<RealmDTO> getRealmByName(@RequestParam String realmName){
+    public ResponseEntity<RealmDTO> getRealmByName(@RequestParam final String realmName) {
         return ResponseEntity.ok().body(realmService.getByName(realmName));
     }
 
     @PutMapping
-    public ResponseEntity<RealmDTO> updateRealm(@RequestParam String realmName ,@RequestBody RealmDTO realmDTO){
+    public ResponseEntity<RealmDTO> updateRealm(@RequestParam final String realmName,
+                                                @RequestBody final RealmDTO realmDTO) {
         return ResponseEntity.ok().body(realmService.updateRealm(realmName ,realmDTO));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<RealmDTO> getRealmById(@PathVariable String id){
+    public ResponseEntity<RealmDTO> getRealmById(@PathVariable final String id) {
         return ResponseEntity.ok().body(realmService.getById(id));
     }
 

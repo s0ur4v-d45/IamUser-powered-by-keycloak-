@@ -22,14 +22,17 @@ public class ClientServiceImpl implements ClientService {
     private final RealmService realmService;
 
     @Override
-    public ClientDTO findById(String id) {
+    public ClientDTO findById(final String id) {
         return clientMapper.mapEntityToDTO(clientRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 
     @Override
-    public ClientDTO createClient(ClientDTO clientDTO) {
-        keycloak.realm(clientDTO.getRealm()).clients().create(clientMapper.mapClientDtoToClientRepresentation(clientDTO));
-        ClientDTO createdClient = clientMapper.mapClientRepresentationToClientDto(keycloak.realm(clientDTO.getRealm()).clients().findByClientId(clientDTO.getClientId()).get(0));
+    public ClientDTO createClient(final ClientDTO clientDTO) {
+        keycloak.realm(clientDTO.getRealm())
+                .clients()
+                        .create(clientMapper.mapClientDtoToClientRepresentation(clientDTO));
+        ClientDTO createdClient = clientMapper.mapClientRepresentationToClientDto(keycloak.realm(clientDTO.getRealm())
+                .clients().findByClientId(clientDTO.getClientId()).get(0));
         createdClient.setRealm(clientDTO.getRealm());
         ClientEntity client = clientMapper.mapDTOToEntity(createdClient, new ClientEntity(), realmRepository);
         client = clientRepository.save(client);
@@ -37,7 +40,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void deleteClient(String id, String myRealm) {
+    public void deleteClient(final String id, final String myRealm) {
         try {
             keycloak.realm(myRealm).clients().get(id).remove();
             clientRepository.deleteById(id);
@@ -47,7 +50,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<ClientDTO> getAllClient(boolean sync) {
+    public List<ClientDTO> getAllClient(final boolean sync) {
         if (sync) {
             List<RealmDTO> realms = realmService.getAllRealm(sync);
             realms.forEach(realmDTO -> {
@@ -62,7 +65,8 @@ public class ClientServiceImpl implements ClientService {
 
                 serverData.stream()
                         .filter(data -> !dbData.contains(data))
-                        .forEach(data -> clientRepository.save(clientMapper.mapDTOToEntity(data, new ClientEntity(), realmRepository)));
+                        .forEach(data -> clientRepository.save(clientMapper.mapDTOToEntity(data,
+                                new ClientEntity(), realmRepository)));
 
             });
         }
@@ -73,8 +77,9 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDTO  update(String id ,ClientDTO clientDTO) {
-        keycloak.realm(clientRepository.findById(id).orElseThrow(NotFoundException::new).getRealm().getRealm()).clients().get(id).update(clientMapper.mapClientDtoToClientRepresentation(clientDTO));
+    public ClientDTO  update(final String id ,final ClientDTO clientDTO) {
+        keycloak.realm(clientRepository.findById(id).orElseThrow(NotFoundException::new).getRealm().getRealm())
+                .clients().get(id).update(clientMapper.mapClientDtoToClientRepresentation(clientDTO));
         ClientEntity client = clientRepository.findById(id).orElseThrow(NotFoundException::new);
         client.setClientId(clientDTO.getClientId()  != null ? clientDTO.getClientId() : client.getClientId());
         client.setName(clientDTO.getName()  != null ? clientDTO.getName() : client.getName() );

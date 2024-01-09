@@ -27,7 +27,7 @@ public class KeycloakSecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(authorize -> authorize
@@ -48,7 +48,7 @@ public class KeycloakSecurityConfig {
     }
 
     @Bean
-    public JwtDecoder jwtDecoder(){
+    public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withJwkSetUri(keycloakProperties.getIssuerUri()).build();
     }
 

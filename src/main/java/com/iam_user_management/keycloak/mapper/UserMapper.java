@@ -9,16 +9,20 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
-    @Mapping(target = "realm" , ignore=true)
-    UserEntity mapDTOToEntity(UserDTO userDTO,@MappingTarget UserEntity userEntity, @Context RealmRepository realmRepository);
+    @Mapping(target = "realm" , ignore = true)
+    UserEntity mapDTOToEntity(UserDTO userDTO,
+                              @MappingTarget UserEntity userEntity,
+                              @Context RealmRepository realmRepository);
     @AfterMapping
-    default  void  afterMapDTOToEntity(UserDTO userDTO , @MappingTarget UserEntity userEntity, @Context RealmRepository realmRepository){
+    default  void  afterMapDTOToEntity(UserDTO userDTO ,
+                                       @MappingTarget UserEntity userEntity,
+                                       @Context RealmRepository realmRepository) {
         userEntity.setRealm(realmRepository.findByRealm(userDTO.getRealm()).orElseThrow(NotFoundException::new));
     }
-    @Mapping(target = "realm" , ignore=true)
+    @Mapping(target = "realm" , ignore = true)
     UserDTO mapEntityToDTO(UserEntity userEntity);
     @AfterMapping
-    default  void  afterMapEntityToDTO(UserEntity userEntity ,@MappingTarget UserDTO userDTO){
+    default  void  afterMapEntityToDTO(UserEntity userEntity ,@MappingTarget UserDTO userDTO) {
         userDTO.setRealm(userEntity.getRealm().getRealm());
     }
 

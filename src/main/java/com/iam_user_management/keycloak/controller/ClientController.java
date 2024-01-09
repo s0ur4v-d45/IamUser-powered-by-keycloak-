@@ -15,29 +15,29 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping
-    public ResponseEntity<ClientDTO> create(@RequestBody ClientDTO clientDTO){
+    public ResponseEntity<ClientDTO> create(@RequestBody final ClientDTO clientDTO) {
         return ResponseEntity.ok().body(clientService.createClient(clientDTO));
     }
 
-   @GetMapping("/{id}")
-   public ResponseEntity<ClientDTO> getById(@PathVariable String id){
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientDTO> getById(@PathVariable final String id) {
         return ResponseEntity.ok().body(clientService.findById(id));
-   }
+    }
 
     @DeleteMapping("/{id}/{realm}")
-    public ResponseEntity<Void> deleteClient(@PathVariable String id, @PathVariable String realm){
+    public ResponseEntity<Void> deleteClient(@PathVariable final String id, @PathVariable final String realm) {
         clientService.deleteClient(id,realm);
         return ResponseEntity.ok().build();
     }
 
 
     @GetMapping
-    public ResponseEntity<List<ClientDTO>> getAllClient(@RequestParam Boolean sync){
+    public ResponseEntity<List<ClientDTO>> getAllClient(@RequestParam final Boolean sync) {
         return ResponseEntity.ok(clientService.getAllClient(sync));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientDTO> update(@PathVariable String id , @RequestBody ClientDTO clientDTO){
+    public ResponseEntity<ClientDTO> update(@PathVariable final String id , @RequestBody final ClientDTO clientDTO) {
         return ResponseEntity.ok().body(clientService.update(id,clientDTO));
     }
 }

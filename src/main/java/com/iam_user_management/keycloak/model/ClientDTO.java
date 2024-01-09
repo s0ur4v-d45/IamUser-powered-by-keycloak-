@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ClientDTO {
-
     private String id;
     @NotNull
     private String clientId;
