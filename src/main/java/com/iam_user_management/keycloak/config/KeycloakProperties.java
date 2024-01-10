@@ -14,6 +14,9 @@ public class KeycloakProperties {
     @Value("${keycloak.client.realm}")
     private String clientRealm;
 
+    @Value("${keycloak.client.container-id}")
+    private String containerId;
+
     @Value("${keycloak.client.org-client-id}")
     private String orgClientId;
 

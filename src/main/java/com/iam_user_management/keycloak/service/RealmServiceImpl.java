@@ -21,8 +21,8 @@ public class RealmServiceImpl implements RealmService {
     private final RealmRepository realmRepository;
     @Override
 
-    public List<RealmDTO> getAllRealm(boolean sync) {
-        if(sync){
+    public List<RealmDTO> getAllRealm(final boolean sync) {
+        if (sync) {
 
             List<RealmDTO> keycloakRealm = keycloak.realms().findAll().stream()
                     .map(realmMapper::mapRealmRepresentationToRealmDTO).toList();
@@ -36,7 +36,7 @@ public class RealmServiceImpl implements RealmService {
     }
 
     @Override
-    public RealmDTO createRealm(RealmDTO realmDTO) {
+    public RealmDTO createRealm(final RealmDTO realmDTO) {
         keycloak.realms().create(realmMapper.mapRealmDTOToRealmRepresentation(realmDTO));
         RealmEntity realm = realmMapper.mapDTOToEntity(realmMapper
                 .mapRealmRepresentationToRealmDTO(
@@ -47,27 +47,27 @@ public class RealmServiceImpl implements RealmService {
 
     @Override
     @Transactional
-    public void deleteRealm(String realmName)  {
+    public void deleteRealm(final String realmName)  {
         try {
             keycloak.realm(realmName).remove();
             realmRepository.deleteByRealm(realmName);
-        }catch (Exception exception){
+        } catch (Exception exception) {
             throw new NotFoundException(exception.getMessage());
         }
     }
 
     @Override
-    public RealmDTO getByName(String realmName) {
+    public RealmDTO getByName(final String realmName) {
         return realmMapper.mapEntityToDTO(realmRepository.findByRealm(realmName).orElseThrow(NotFoundException::new));
     }
 
     @Override
-    public RealmDTO getById(String id) {
+    public RealmDTO getById(final String id) {
         return realmMapper.mapEntityToDTO(realmRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 
     @Override
-    public RealmDTO updateRealm(String realmName ,RealmDTO realmDTO) {
+    public RealmDTO updateRealm(final String realmName ,final RealmDTO realmDTO) {
         keycloak.realm(realmName).update(realmMapper.mapRealmDTOToRealmRepresentation(realmDTO));
         RealmEntity entity = realmRepository.findByRealm(realmName).orElseThrow(NotFoundException::new);
         entity.setRealm( !realmDTO.getRealm().isEmpty() ? realmDTO.getRealm() : entity.getRealm());

@@ -18,7 +18,7 @@ public class AccessTokenServiceImpl implements AccessTokenService{
     @Override
     public AccessTokenResponse generateToken(final TokenDTO tokenDTO) {
 
-    Keycloak keycloak = KeycloakBuilder.builder()
+        Keycloak keycloak = KeycloakBuilder.builder()
                     .serverUrl(keycloakProperties.getClientServerUrl())
                     .grantType(OAuth2Constants.PASSWORD)
                     .realm(tokenDTO.getRealmName())

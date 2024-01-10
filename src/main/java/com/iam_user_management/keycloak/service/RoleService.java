@@ -15,10 +15,10 @@ public interface RoleService {
 
     void updateRealmRole(String realmName, String roleName, RoleDTO updatedRole);
 
-     RoleDTO createClientRole(String realmName, String roleName);
+    RoleDTO createClientRole(String realmName, String roleName);
 
-     List<RoleDTO> findAllClientRoles(String realm);
+    List<RoleDTO> findAllClientRoles(String realm);
 
-     void deleteClientRole(String realmName, String roleName);
+    void deleteClientRole(String realmName, String roleName);
 
 }

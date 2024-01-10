@@ -83,7 +83,9 @@ public class ClientServiceImpl implements ClientService {
         ClientEntity client = clientRepository.findById(id).orElseThrow(NotFoundException::new);
         client.setClientId(clientDTO.getClientId()  != null ? clientDTO.getClientId() : client.getClientId());
         client.setName(clientDTO.getName()  != null ? clientDTO.getName() : client.getName() );
-        client.setDescription(clientDTO.getDescription()  != null ? clientDTO.getDescription() : client.getDescription());
+        client.setDescription(clientDTO.getDescription()  != null
+                ? clientDTO.getDescription()
+                : client.getDescription());
         client = clientRepository.save(client);
         return clientMapper.mapEntityToDTO(client);
     }
