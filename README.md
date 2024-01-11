@@ -13,7 +13,7 @@ In order to run this MicroService application make sure you meet these pre-requi
 
 Then before running this App, some infrastructure services should be already started. See how to make them work properly in the next section.
 
-## Running KeyCloak
+## Running Keycloak
 
 In the Development Environment, KeyCloak and its dependencies services can be run with this below provided configs:
 
